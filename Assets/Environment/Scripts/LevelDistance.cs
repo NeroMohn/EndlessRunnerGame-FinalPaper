@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelDistance : MonoBehaviour
@@ -37,6 +36,4 @@ public class LevelDistance : MonoBehaviour
         yield return new WaitForSeconds(4.3f);
         started = true;
     }
-
-
 }

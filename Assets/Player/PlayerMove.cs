@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -21,6 +17,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Awake()
     {
+        canMove = false;
         camOffset = Camera.main.transform.position - transform.position;
     }
 
@@ -41,7 +38,7 @@ public class PlayerMove : MonoBehaviour
             if (axisX < -0.3f)
             {
                 var force = Remap(-0.3f, -1, 0, 1, axisX);
-                Debug.Log("esqueda " + force);
+                //Debug.Log("esqueda " + force);
 
                 if (this.gameObject.transform.position.x > LevelBoundaries.leftLimit)
                 {
@@ -54,7 +51,7 @@ public class PlayerMove : MonoBehaviour
             if (axisX > 0.3f)
             {
                 var force = Remap(0.3f, 1, 0, 1, axisX);
-                Debug.Log("direita " + force);
+                //Debug.Log("direita " + force);
 
                 if (this.gameObject.transform.position.x < LevelBoundaries.righttLimit)
                 {

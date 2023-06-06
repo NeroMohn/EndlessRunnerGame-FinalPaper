@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,6 +26,11 @@ public class CountDown : MonoBehaviour
         yield return new WaitForSeconds(1);
         countDownDisplay.SetActive(false);
         PlayerMove.canMove = true;
+    }
+
+    public void ActivateDisplay()
+    {
+        countDownDisplay.SetActive(true);
     }
 
 }

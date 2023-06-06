@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,22 +14,22 @@ public class Points : MonoBehaviour
 
     void Update()
     {
-        countDisplay.GetComponent<Text>().text = distance.ToString();
+        countDisplay.GetComponent<Text>().text = distance.ToString("0.##");
     }
 
     public static void AddPoints()
     {
         coinCount++;
-    }    
-    
+    }
+
     public static void AddDistance()
     {
-        distance+=0.13;
+        distance += 0.11;
     }
 
     public static void ResetPoint()
     {
         coinCount = 0;
-        distance  = 0;
+        distance = 0;
     }
 }
