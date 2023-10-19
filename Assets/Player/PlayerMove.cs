@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     private Vector3 camOffset;
 
     static public bool canMove = false;
+    public bool _useAccelController;
 
 
     private void Awake()
@@ -23,11 +24,19 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        MovePlayer();
+        switch (_useAccelController)
+        {
+            case true:
+                MovePlayerSensor();
+                break;
+            default:
+                MovePlayerController();
+                break;
+        }
         Camera.main.transform.position = transform.position + camOffset;
     }
 
-    void MovePlayer()
+    void MovePlayerController()
     {
         if (canMove)
         {
@@ -51,6 +60,64 @@ public class PlayerMove : MonoBehaviour
             if (axisX > 0.3f)
             {
                 var force = Remap(0.3f, 1, 0, 1, axisX);
+                //Debug.Log("direita " + force);
+
+                if (this.gameObject.transform.position.x < LevelBoundaries.righttLimit)
+                {
+                    transform.Translate(Vector3.right * Time.deltaTime * horizontalSpeed * force, Space.World);
+                    transform.Rotate(0, 0, -rotateSpeedAngle * Time.deltaTime * force, Space.World);
+                    return;
+                }
+            }
+            //transform.Rotate(0, 0, -transform.rotation.z * Time.deltaTime, Space.World);
+            //var direction = Mathf.Sign(transform.rotation.z);
+            //var speed = Mathf.Min(Mathf.Abs(transform.rotation.z), rotateSpeedAngleBack * Time.deltaTime);
+            //transform.Rotate(0, 0, -speed * direction, Space.World);
+
+            //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, (Time.deltaTime * 3f));
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, rotateSpeedAngleBack * Time.deltaTime);
+
+            //{
+            //    //transform.rotation = Quaternion.Lerp (transform.rotation, , Time.deltaTime * 0.5);
+            //timeCount = timeCount + Time.deltaTime;
+
+            //        //if(transform.rotation.z > 0)
+            //        //{
+            //        //    ;
+            //        //}
+            //        //if (transform.rotation.z < 0)
+            //        //{
+            //        //    transform.Rotate(0, 0, 0.1f, Space.World);
+            //        //}
+
+            //}
+        }
+    }
+
+    void MovePlayerSensor()
+    {
+        if (canMove)
+        {
+            var axisX = ArduinoIntegration.receivedString;
+            transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed, Space.World);
+
+            //if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            if (axisX < 2000)
+            {
+                var force = Remap(1000, -2700, 0, 1, axisX);
+                //Debug.Log("esqueda " + force);
+
+                if (this.gameObject.transform.position.x > LevelBoundaries.leftLimit)
+                {
+                    transform.Translate(Vector3.left * Time.deltaTime * horizontalSpeed * force, Space.World);
+                    transform.Rotate(0, 0, rotateSpeedAngle * Time.deltaTime * force, Space.World);
+                    return;
+                }
+            }
+            //if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            if (axisX > 3000)
+            {
+                var force = Remap(3000, 6000, 0, 1, axisX);
                 //Debug.Log("direita " + force);
 
                 if (this.gameObject.transform.position.x < LevelBoundaries.righttLimit)
