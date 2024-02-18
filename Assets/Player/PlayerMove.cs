@@ -56,7 +56,6 @@ public class PlayerMove : MonoBehaviour
                     return;
                 }
             }
-            //if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             if (axisX > 0.3f)
             {
                 var force = Remap(0.3f, 1, 0, 1, axisX);
@@ -69,31 +68,17 @@ public class PlayerMove : MonoBehaviour
                     return;
                 }
             }
-            //transform.Rotate(0, 0, -transform.rotation.z * Time.deltaTime, Space.World);
-            //var direction = Mathf.Sign(transform.rotation.z);
-            //var speed = Mathf.Min(Mathf.Abs(transform.rotation.z), rotateSpeedAngleBack * Time.deltaTime);
-            //transform.Rotate(0, 0, -speed * direction, Space.World);
-
-            //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, (Time.deltaTime * 3f));
+            
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, rotateSpeedAngleBack * Time.deltaTime);
 
-            //{
-            //    //transform.rotation = Quaternion.Lerp (transform.rotation, , Time.deltaTime * 0.5);
-            //timeCount = timeCount + Time.deltaTime;
-
-            //        //if(transform.rotation.z > 0)
-            //        //{
-            //        //    ;
-            //        //}
-            //        //if (transform.rotation.z < 0)
-            //        //{
-            //        //    transform.Rotate(0, 0, 0.1f, Space.World);
-            //        //}
-
-            //}
         }
     }
 
+    /// <summary>
+    /// Moves the player using the motion sensor.
+    /// Note: The values may not be intuitive due to accelerometer calibration.
+    /// It's recommended to check the values first and then apply the movement range accordingly.
+    /// </summary>
     void MovePlayerSensor()
     {
         if (canMove)
@@ -101,11 +86,10 @@ public class PlayerMove : MonoBehaviour
             var axisX = ArduinoIntegration.receivedString;
             transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed, Space.World);
 
-            //if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            //This should be setted up in a variable. fix this latter
             if (axisX < 2000)
             {
                 var force = Remap(1000, -2700, 0, 1, axisX);
-                //Debug.Log("esqueda " + force);
 
                 if (this.gameObject.transform.position.x > LevelBoundaries.leftLimit)
                 {
@@ -127,28 +111,7 @@ public class PlayerMove : MonoBehaviour
                     return;
                 }
             }
-            //transform.Rotate(0, 0, -transform.rotation.z * Time.deltaTime, Space.World);
-            //var direction = Mathf.Sign(transform.rotation.z);
-            //var speed = Mathf.Min(Mathf.Abs(transform.rotation.z), rotateSpeedAngleBack * Time.deltaTime);
-            //transform.Rotate(0, 0, -speed * direction, Space.World);
-
-            //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.identity, (Time.deltaTime * 3f));
             transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, rotateSpeedAngleBack * Time.deltaTime);
-
-            //{
-            //    //transform.rotation = Quaternion.Lerp (transform.rotation, , Time.deltaTime * 0.5);
-            //timeCount = timeCount + Time.deltaTime;
-
-            //        //if(transform.rotation.z > 0)
-            //        //{
-            //        //    ;
-            //        //}
-            //        //if (transform.rotation.z < 0)
-            //        //{
-            //        //    transform.Rotate(0, 0, 0.1f, Space.World);
-            //        //}
-
-            //}
         }
     }
 
